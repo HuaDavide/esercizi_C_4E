@@ -1,0 +1,1 @@
+Le stringhe ripetute sono: 4

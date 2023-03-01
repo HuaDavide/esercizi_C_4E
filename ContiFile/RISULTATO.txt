@@ -1,0 +1,3 @@
+Numero vocali = 12
+Numero consonanti = 10
+Numero stringhe = 4
