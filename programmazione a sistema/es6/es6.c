@@ -49,15 +49,12 @@ int main(int argc, char *argv[])
     close(p1p2[1]);
     close(p2p0[1]);
     
-    while(read(p2p0[0], strimporto, 1) != 0)
+    while(read(p2p0[0], strimporto, 1) > 0)
     {
-
         strncat(stringa, strimporto, sizeof(strimporto));
         if(strimporto[0] == '\n')
         {
             totale += strtod(strimporto, &conversione);
-
-            printf("%lf\n", totale);
             stringa[0] = '\0';
 
         }
