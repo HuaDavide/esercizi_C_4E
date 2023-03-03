@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
         strncat(stringa, strimporto, sizeof(strimporto));
         if(strimporto[0] == '\n')
         {
-            totale += strtod(strimporto, &conversione);
+            totale += strtod(stringa, &conversione);
             stringa[0] = '\0';
 
         }
