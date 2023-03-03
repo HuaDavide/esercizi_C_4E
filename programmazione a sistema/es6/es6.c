@@ -6,7 +6,7 @@
 
 int main(int argc, char *argv[])
 {
-    if(argc != 2)
+    if (argc != 2)
     {
         printf("errore nei parametri inseriti\n");
         return -1;
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     pipe(p1p2);
     pid = fork();
-    if(pid == 0)
+    if (pid == 0)
     {
         close(p1p2[0]);
         close(1);
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 
     pipe(p2p0);
     pid = fork();
-    if(pid == 0)
+    if (pid == 0)
     {
         close(p1p2[1]);
         close(0);
@@ -42,26 +42,24 @@ int main(int argc, char *argv[])
         close(p2p0[1]);
 
         execl("/usr/bin/awk", "awk", "{print $3}", NULL);
-        return -1;        
+        return -1;
     }
 
     close(p1p2[0]);
     close(p1p2[1]);
     close(p2p0[1]);
-    
-    while(read(p2p0[0], strimporto, 1) > 0)
+
+    while (read(p2p0[0], strimporto, 1) > 0)
     {
         strncat(stringa, strimporto, sizeof(strimporto));
-        if(strimporto[0] == '\n')
+        if (strimporto[0] == '\n')
         {
             totale += strtod(stringa, &conversione);
             stringa[0] = '\0';
-
         }
     }
-
+    
+    close(p2p0[0]);
     printf("L'importo totale: %lf\n", totale);
     return 0;
-
-    
 }
