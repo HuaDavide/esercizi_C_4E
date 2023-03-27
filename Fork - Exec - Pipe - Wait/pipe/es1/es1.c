@@ -3,20 +3,21 @@
 #include <unistd.h>
 #include <fcntl.h> //libreria che contiene flag di open
 #include <string.h>
+
 int main(int argc, char *argv[])
 {
-    if(argc != 2)
+    if (argc != 3)
     {
-        printf("Errore inserimento parametri");
+        printf("Errore inserimento parametri\n");
         exit(0);
     }
 
-    int p1p2[2], p2p0[2], pid;
-    char stringa[50], str[100];
+    int p1p2[2], pid;
 
     pipe(p1p2);
     pid = fork();
-    if(pid == 0)
+
+    if (pid == 0)
     {
         close(p1p2[0]);
         close(1);
@@ -26,40 +27,20 @@ int main(int argc, char *argv[])
         execl("/use/bin/cat", "cat", argv[1], NULL);
         return -1;
     }
-
-
-    printf("Inserisci la stringa da ricercare: ");
-    scanf("%s", stringa);
-
-    pipe(p2p0);
     pid = fork();
 
-    if(pid == 0)
+    if (pid == 0)
     {
+        close(p1p2[1]);
         close(0);
         dup(p1p2[0]);
         close(p1p2[0]);
-        close(p2p0[0]);
-        close(1);
-        dup(p2p0[1]);
-        close(p2p0[1]);
-
-        execl("/usr/bin/grep", "grep", stringa, NULL);
+        execl("/usr/bin/grep", "grep", argv[2], argv[1], NULL);
         return -1;
     }
 
     close(p1p2[1]);
     close(p1p2[0]);
-
-    int fd = open("risultato.txt", O_WRONLY | O_CREAT, 0644);
-    int nRead;
-    while(nRead = read(p2p0[0], stringa, strlen(stringa) > 0))
-    {
-        write(fd, stringa, nRead);
-    }
-
-    close(p2p0[1]);
-    close(p2p0[0]);
+    
     return 0;
-
 }
