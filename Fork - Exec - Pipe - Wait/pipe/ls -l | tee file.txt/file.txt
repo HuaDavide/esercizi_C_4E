@@ -1,0 +1,5 @@
+totale 20
+-rw-rw-r-- 1 hua_davide hua_davide     0 apr 12 12:57 a
+-rwxrwxr-x 1 hua_davide hua_davide 16216 apr 12 12:46 a.out
+-rw-rw-r-- 1 hua_davide hua_davide   795 apr 12 12:46 es.c
+-rw-rw-r-- 1 hua_davide hua_davide     0 apr 12 12:58 file.txt
