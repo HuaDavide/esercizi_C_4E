@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
         close(1);
         dup(p1p2[1]);
         close(p1p2[1]);
-        printf("%s", stringa);
+    
         execl("/usr/bin/cat", "cat", argv[1], (char *)0);
         return -1;
     }
