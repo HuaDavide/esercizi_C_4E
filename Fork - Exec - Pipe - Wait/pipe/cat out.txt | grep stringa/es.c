@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
         exit(0);
     }
 
-    int pid, p1p2[2], p2p0[2];
+    int pid, p1p2[2];
     pipe(p1p2);
     char stringa[100];
 
@@ -28,11 +28,10 @@ int main(int argc, char *argv[])
         dup(p1p2[1]);
         close(p1p2[1]);
         printf("%s", stringa);
-        execl("/usr/bin/grep", "grep", stringa, argv[1], (char *)0);
+        execl("/usr/bin/cat", "cat", argv[1], (char *)0);
         return -1;
     }
 
-    pipe(p2p0);
     pid = fork();
 
     if (pid == 0)
@@ -42,29 +41,18 @@ int main(int argc, char *argv[])
         dup(p1p2[0]);
         close(p1p2[0]);
 
-        close(p2p0[0]);
         close(1);
-        dup(p2p0[1]);
-        close(p2p0[1]);
 
-        execl("/usr/bin/wc", "wc", "-l", (char *)0);
+        remove("result");
+        int fd = open("result", O_WRONLY | O_CREAT, 0777);
+
+        execl("/usr/bin/grep", "grep", stringa, (char *)0);
         return -1;
     }
 
     wait(&pid);
     close(p1p2[1]);
     close(p1p2[0]);
-    close(p2p0[1]);
-
-    int nRead = 0;
-    int fd = open("ris", O_WRONLY);
-
-    while (nRead = read(p2p0[0], stringa, strlen(stringa)) > 0)
-    {
-        write(fd, stringa, nRead);
-    }
-
-    close(p2p0[0]);
 
     return 0;
 }
